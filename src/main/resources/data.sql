@@ -1,0 +1,3 @@
+insert into todo values ('7fd921cfd2b64dc7b995633e8209f386','Read my UX Chapter 8','2019-09-23 15:00:01','2019-09-23 15:00:01',false);
+insert into todo values ('5820a4c2abe74f409da89217bf905a0s','Study Software Developement 2 notes ','2019-09-02 16:00:01','2019-09-02 16:00:01',false);
+insert into todo values ('a44b6db26aef49e39d1b68622f55c34j','Find a coping system for my failures ','2019-09-18 12:00:00','2019-09-18 12:00:00',false);

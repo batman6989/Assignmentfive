@@ -1,0 +1,50 @@
+<context:component-scan base-package="com.example.ToDoHib" />
+<mvc:annotation-driven>
+<mvc:message-converters>
+    <bean
+            class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper" ref="jsonMapper" />
+    </bean>
+    <bean
+            class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">
+        <property name="objectMapper" ref="xmlMapper" />
+    </bean>
+</mvc:message-converters>
+</mvc:annotation-driven>
+<bean id="jsonMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+<property name="simpleDateFormat" value="yyyy-MM-dd HH:mm:ss" />
+</bean>
+<bean id="xmlMapper" parent="jsonMapper">
+<property name="createXmlMapper" value="true" />
+</bean>
+<mvc:resources mapping="/webjars/**"
+               location="classpath:META-INF/resources/webjars/" />
+<jpa:repositories base-package="com.javaprogramto.todo.repository" />
+<jdbc:embedded-database id="dataSource"
+                        type="H2">
+<jdbc:script location="classpath:src/main/resources/schema.sql" />
+<jdbc:script location="classpath:src/main/resources/data.sql" />
+</jdbc:embedded-database>
+<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+<property name="showSql" value="true" />
+</bean>
+<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+<property name="dataSource" ref="dataSource" />
+<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+</bean>
+<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+<property name="entityManagerFactory"
+          ref="entityManagerFactory" />
+</bean>
+<tx:annotation-driven
+transaction-manager="transactionManager" />
+<bean
+class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<property name="prefix" value="/WEB-INF/views/" />
+<property name="suffix" value=".jsp" />
+</bean>
+<bean id="h2WebServer" class="org.h2.tools.Server"     factory-method="createWebServer" init-method="start"
+      destroy-method="stop">
+<constructor-arg
+        value="-web,-webAllowOthers,-webDaemon,-webPort,8082" />
+</bean>
